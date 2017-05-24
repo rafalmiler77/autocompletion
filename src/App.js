@@ -3,9 +3,17 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
-
+constructor(){
+  super()
+  this.state = ({
+    inputValue: ''
+  })
+}
   onInputChange = e => {
-    console.log('click')
+    console.log('click', e.target.value)
+    this.setState({
+      inputValue: e.target.value
+    })
   }
 
   render() {
@@ -24,7 +32,7 @@ class App extends Component {
             name="name here"
             onChange={e => this.onInputChange(e)}
             className="gh-input"
-            value='some value'
+            value={this.state.inputValue}
           />
         </div>          
       </div>
