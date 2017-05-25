@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './InputForm.css';
 import fetchUser from '../state/actionCreators';
+import { fetchPeople } from '../state/actionCreators';
 
 const mapStateToProps = state => ({
-  users: state.userData.users
+  users: state.userData.users,
+  people: state.userData.people,
 })
 const mapDispatchToProps = dispatch => ({
   getUser: user => dispatch(fetchUser(user)),
+  fetchData: () => dispatch(fetchPeople()),
 });
 
 class InputForm extends Component {
@@ -17,8 +20,12 @@ class InputForm extends Component {
       inputValue: ''
     })
   }
+
+  componentWillMount() {
+    this.props.fetchData()
+  }
+
   onInputChange = e => {
-    console.log('click', e.target.value)
     this.setState({
       inputValue: e.target.value
     })

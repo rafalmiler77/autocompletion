@@ -1,7 +1,10 @@
 import {
   FETCH_USERS__BEGIN,
   FETCH_USERS__SUCCESS,
-  USER_NOT_FOUND
+  USER_NOT_FOUND,
+  FETCH_PEOPLE_BEGIN,
+  FETCH_PEOPLE_SUCCESS,
+  FETCH_PEOPLE_FAILURE,
 } from './actionTypes';
 
 const fetchUser = actualInput =>
@@ -30,3 +33,16 @@ const fetchUser = actualInput =>
   };
 
 export default fetchUser;
+
+export const fetchPeople = () => dispatch => {
+  dispatch({ type: FETCH_PEOPLE_BEGIN })
+  fetch(
+    process.env.PUBLIC_URL + '/data/peopleList.json'
+  ).then(
+    response => response.json()
+    ).then(
+    people => dispatch({ type: FETCH_PEOPLE_SUCCESS, people })
+    ).catch(
+    error => dispatch({ type: FETCH_PEOPLE_FAILURE, failureOccurred: true })
+    )
+}
