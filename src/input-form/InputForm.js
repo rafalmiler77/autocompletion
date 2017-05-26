@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './InputForm.css';
+import AutoCompleter from '../auto-completer/AutoCompleter';
 import fetchUser from '../state/actionCreators';
 import { fetchPeople } from '../state/actionCreators';
 
@@ -17,7 +18,8 @@ class InputForm extends Component {
   constructor() {
     super()
     this.state = ({
-      inputValue: ''
+      inputValue: '',
+      mockInputValue: '',
     })
   }
 
@@ -30,54 +32,17 @@ class InputForm extends Component {
       inputValue: e.target.value
     })
     // this.props.getUser(e.target.value)
-      // this.prepareDisplayedItems()
+  }
+
+  onMockInputChange = e => {
+    this.setState({
+      mockInputValue: e.target.value
+    })
   }
   
-  prepareDisplayedItems = () => {
-    const people = this.props.people;
-    console.log('people', this.props.people)
-
-    // This regex filters items depending on input value
-    let pattern = new RegExp("\\b" + this.state.inputValue);
-    const regexedPeople = people.filter(
-      man => pattern.test(man.name),
-    );
-
-    console.log('regexedPeople', regexedPeople)
-    // It limits displayed number of items 
-    const displayLimiter = 8;
-    const mappedPeople = regexedPeople.slice(0, displayLimiter).map(
-      man => <p key={man.id}>{man.name}</p>
-    );
-    console.log('mappedPeople', mappedPeople)
-
-    // this.setState({ availablePeople: mappedPeople });
-    // return mappedPeople
-  }
-
   render() {
-    const people = this.props.people;
-    console.log('people', this.props.people)
-
-    // This regex filters items depending on input value
-    let pattern = new RegExp("\\b" + this.state.inputValue);
-    const regexedPeople = people.filter(
-      // item => item.name === this.state.inputValue,
-      item => pattern.test(item.name)
-
-    );
-
-    console.log('regexedPeople', regexedPeople)
-    // It limits displayed number of items 
-    const displayLimiter = 8;
-    const mappedPeople = regexedPeople.slice(0, displayLimiter).map(
-      man => <p key={man.id}>{man.name}</p>
-    );
-    console.log('mappedPeople', mappedPeople)
-    console.log('this.props.people[0]', this.props.people[0])
-    console.log('this.props.people[0].name', this.props.people[0])
     return (
-      <div className="gh-form">
+      <div className="input-forms">
         {/*<label>Input a github user login:</label>
         <br />
         <input
@@ -87,20 +52,20 @@ class InputForm extends Component {
           className="gh-input"
           value={this.state.inputValue}
         />*/}
-        <label>Input a name from mock list:</label>
+        <label>Pick a name from a mock list:</label>
         <br />
         <input
           type="text"
           name="mockName"
-          onChange={e => this.onInputChange(e)}
+          onChange={e => this.onMockInputChange(e)}
           className="gh-input"
-          value={this.state.inputValue}
+          value={this.state.mockInputValue}
         />
         <div>
-
-          {
-            mappedPeople
-          }
+          <AutoCompleter
+            searchData={this.props.people}
+            inputValue={this.state.mockInputValue}
+          />
         </div>
       </div>
     );
@@ -109,6 +74,4 @@ class InputForm extends Component {
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputForm);
 
-  {/*this.state.availablePeople*/ }
-  {/*{this.prepareDisplayedItems}*/ }
 
