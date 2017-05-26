@@ -50,6 +50,8 @@ class InputForm extends Component {
       mockInputValue: ''
     })
   }
+    // fires when a name in AutoCompleter is hovered; args: id of a person
+  // the person is filtered from array and persons surname string goes to state
   showSurname = id => {
     this.setState({
       surname: this.props.people.filter(

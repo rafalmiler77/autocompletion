@@ -17,7 +17,7 @@ const AutoCompleter = props => {
     props.showSurname(id)
   }
 
-  // It limits displayed number of items 
+  // It limits displayed number of items and maps them to html markup 
   const displayLimiter = 8;
   const mappedItems = regexedItems.slice(0, displayLimiter).map(
     item =>
@@ -30,7 +30,7 @@ const AutoCompleter = props => {
         {item.name} {props.surnameValue === item.surname ? item.surname : null}
     </div>
   );
-  console.log('mappedItems.length', mappedItems.length)
+// if search doesn't bring any results, nothing is displayed
   if (mappedItems.length !== 0){
     return (
       <div className='container'>
