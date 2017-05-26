@@ -30,12 +30,17 @@ const AutoCompleter = props => {
         {item.name} {props.surnameValue === item.surname ? item.surname : null}
     </div>
   );
-
-  return (
-    <div className='container'>
-      {mappedItems}
-    </div>
-  );
+  console.log('mappedItems.length', mappedItems.length)
+  if (mappedItems.length !== 0){
+    return (
+      <div className='container'>
+        {mappedItems}
+      </div>
+    );
+  } else {
+    return null
+  }
+  
 }
 
 export default AutoCompleter;
