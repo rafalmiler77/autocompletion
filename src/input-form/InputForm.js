@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './InputForm.css';
 import AutoCompleter from '../auto-completer/AutoCompleter';
-import fetchUser from '../state/actionCreators';
-import { fetchPeople } from '../state/actionCreators';
+import fetchUser, { fetchPeople } from '../state/actionCreators';
 
 const mapStateToProps = state => ({
   users: state.userData.users,
@@ -21,33 +20,44 @@ class InputForm extends Component {
       inputValue: '',
       mockInputValue: '',
       selectedPerson: null,
+      surname: '',
     })
   }
-
+// fetches people data
   componentWillMount() {
     this.props.fetchData()
   }
-
+// fires on input change; args: event object
   onInputChange = e => {
     this.setState({
       inputValue: e.target.value
     })
     // this.props.getUser(e.target.value)
   }
-
+// fires on input change; args: event object
   onMockInputChange = e => {
     this.setState({
-      mockInputValue: e.target.value
+      mockInputValue: e.target.value,
     })
   }
+  // fires when a name is picked in AutoCompleter; args: id of a person
+  // the person is filtered from array and person object goes to state
   selectItem = id => {
     this.setState({
       selectedPerson: this.props.people.filter(
         name => id === name.id
-      )[0]
+      )[0],
+      mockInputValue: ''
     })
   }
-  
+  showSurname = id => {
+    this.setState({
+      surname: this.props.people.filter(
+        name => id === name.id
+      )[0].surname
+    })
+  }
+
   render() {
     return (
       <div className="input-forms">
@@ -69,26 +79,30 @@ class InputForm extends Component {
           className="gh-input"
           value={this.state.mockInputValue}
         />
-         {
-           this.state.mockInputValue !== '' ?
+        {/*if an input value is not empty, AutoCompleter appears*/}
+        {
+          this.state.mockInputValue !== '' ?
             <div className='completer-mount'>
               <AutoCompleter
                 searchData={this.props.people}
                 inputValue={this.state.mockInputValue}
                 handleItemSelect={this.selectItem}
+                showSurname={this.showSurname}
+                surnameValue={this.state.surname}
               />
-             </div>
-             : null
-         }
-         {
-           this.state.selectedPerson !== null ?
-           <div className="selected-person">
+            </div>
+            : null
+        }
+        {/*display of some details of a person, like name and email*/}
+        {
+          this.state.selectedPerson !== null ?
+            <div className="selected-person">
               You selected {this.state.selectedPerson.name}, <br />
-               whose e-mail is {this.state.selectedPerson.email}
-           </div>
-              :
-             null
-         }
+              whose e-mail is {this.state.selectedPerson.email}
+            </div>
+            :
+            null
+        }
       </div>
     );
   }
