@@ -6,3 +6,5 @@ Settings and features:
 - searching is case-insensitive
 - the displayed number of propositions is limited to 8
 - there can be multiple names, that's why when hovered over, a surname is added to display
+
+Demo: https://rafalmiler77.github.io/autocompletion/
