@@ -11,3 +11,6 @@
 .completer-mount {
   position: relative;
 }
+.selected-person {
+  margin-top: 20px;
+}

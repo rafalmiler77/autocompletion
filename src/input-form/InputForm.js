@@ -20,6 +20,7 @@ class InputForm extends Component {
     this.state = ({
       inputValue: '',
       mockInputValue: '',
+      selectedPerson: null,
     })
   }
 
@@ -37,6 +38,13 @@ class InputForm extends Component {
   onMockInputChange = e => {
     this.setState({
       mockInputValue: e.target.value
+    })
+  }
+  selectItem = id => {
+    this.setState({
+      selectedPerson: this.props.people.filter(
+        name => id === name.id
+      )[0]
     })
   }
   
@@ -67,10 +75,20 @@ class InputForm extends Component {
               <AutoCompleter
                 searchData={this.props.people}
                 inputValue={this.state.mockInputValue}
+                handleItemSelect={this.selectItem}
               />
-            </div>
-            : null
-           } 
+             </div>
+             : null
+         }
+         {
+           this.state.selectedPerson !== null ?
+           <div className="selected-person">
+              You selected {this.state.selectedPerson.name}, <br />
+               whose e-mail is {this.state.selectedPerson.email}
+           </div>
+              :
+             null
+         }
       </div>
     );
   }

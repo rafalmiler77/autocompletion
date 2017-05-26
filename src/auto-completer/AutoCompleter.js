@@ -5,10 +5,14 @@ const AutoCompleter = props => {
   const items = props.searchData;
 
   // This regex filters items depending on input value
-  const pattern = new RegExp("\\b" + props.inputValue);
+  const pattern = new RegExp("\\b" + props.inputValue, "i");
   const regexedItems = items.filter(
     item => pattern.test(item.name)
   );
+  const handleClick = id => {
+    console.log('id',id)
+    props.handleItemSelect(id)
+  }
 
   // It limits displayed number of items 
   const displayLimiter = 8;
@@ -17,7 +21,7 @@ const AutoCompleter = props => {
     <div
       className="option-item"
       key={item.id}
-      onClick={props.handleItemSelect}
+      onClick={()=>handleClick(item.id)}
     >
       {item.name}
     </div>
