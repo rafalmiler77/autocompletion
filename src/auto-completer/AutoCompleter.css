@@ -1,0 +1,12 @@
+.container {
+  position: absolute;
+  border: 1px solid black;
+  width: 100%;
+}
+.option-item {
+  text-align: left;
+}
+.option-item:hover {
+  cursor: pointer;
+  background: lightgray
+}

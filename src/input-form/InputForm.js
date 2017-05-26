@@ -61,12 +61,16 @@ class InputForm extends Component {
           className="gh-input"
           value={this.state.mockInputValue}
         />
-        <div>
-          <AutoCompleter
-            searchData={this.props.people}
-            inputValue={this.state.mockInputValue}
-          />
-        </div>
+         {
+           this.state.mockInputValue !== '' ?
+            <div className='completer-mount'>
+              <AutoCompleter
+                searchData={this.props.people}
+                inputValue={this.state.mockInputValue}
+              />
+            </div>
+            : null
+           } 
       </div>
     );
   }

@@ -1,6 +1,13 @@
 .input-forms {
   margin-top: 40px;
+  width: 250px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .gh-input{
   margin-top: 20px;
+  width: 100%;
+}
+.completer-mount {
+  position: relative;
 }
