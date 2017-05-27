@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './InputForm.css';
 import AutoCompleter from '../auto-completer/AutoCompleter';
-import fetchPeople from '../state/actionCreators';
+import fetchUser, { fetchPeople } from '../state/actionCreators';
 
 const mapStateToProps = state => ({
+  users: state.userData.users,
   people: state.userData.people,
 })
 const mapDispatchToProps = dispatch => ({
+  getUser: user => dispatch(fetchUser(user)),
   fetchData: () => dispatch(fetchPeople()),
 });
 
@@ -15,16 +17,24 @@ class InputForm extends Component {
   constructor() {
     super()
     this.state = ({
+      inputValue: '',
       mockInputValue: '',
       selectedPerson: null,
       surname: '',
     })
   }
-// fetches people data
+  // fetches people data from mock file
   componentWillMount() {
     this.props.fetchData()
   }
-// fires on input change; args: event object
+  // fires on input change; args: event object
+  onInputChange = e => {
+    this.setState({
+      inputValue: e.target.value
+    })
+    this.props.getUser(e.target.value)
+  }
+  // fires on input change; args: event object
   onMockInputChange = e => {
     this.setState({
       mockInputValue: e.target.value,
@@ -40,7 +50,7 @@ class InputForm extends Component {
       mockInputValue: ''
     })
   }
-    // fires when a name in AutoCompleter is hovered; args: id of a person
+  // fires when a name in AutoCompleter is hovered; args: id of a person
   // the person is filtered from array and persons surname string goes to state
   showSurname = id => {
     this.setState({
@@ -53,6 +63,15 @@ class InputForm extends Component {
   render() {
     return (
       <div className="input-forms">
+        <label>Input a github user login:</label>
+        <br />
+        <input
+          type="text"
+          name="ghLogin"
+          onChange={e => this.onInputChange(e)}
+          className="gh-input"
+          value={this.state.inputValue}
+        />
         <label>Pick a name from a mock list:</label>
         <br />
         <input
@@ -92,5 +111,4 @@ class InputForm extends Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputForm);
-
 
