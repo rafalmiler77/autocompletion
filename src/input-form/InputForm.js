@@ -20,7 +20,7 @@ class InputForm extends Component {
       inputValue: '',
       mockInputValue: '',
       selectedPerson: null,
-      surname: '',
+      moreInfo: '',
     })
   }
   // fetches people data from mock file
@@ -54,13 +54,15 @@ class InputForm extends Component {
   // the person is filtered from array and persons surname string goes to state
   showSurname = id => {
     this.setState({
-      surname: this.props.people.filter(
+      moreInfo: this.props.people.filter(
         name => id === name.id
       )[0].surname
     })
   }
 
   render() {
+    // console.log('this.props.users',this.props.users)
+    // console.log('this.props.users.items',this.props.users.items)
     return (
       <div className="input-forms">
         <label>Input a github user login:</label>
@@ -72,6 +74,18 @@ class InputForm extends Component {
           className="gh-input"
           value={this.state.inputValue}
         />
+        {
+          this.state.inputValue.length >= 1 && this.props.users ?
+            <div className='completer-mount'>
+              <AutoCompleter
+                searchData={this.props.users.items}
+                searchFor='login'
+                inputValue={this.state.inputValue}
+                handleItemSelect={this.selectItem}
+              />
+            </div>
+            : null
+        }
         <label>Pick a name from a mock list:</label>
         <br />
         <input
@@ -87,10 +101,12 @@ class InputForm extends Component {
             <div className='completer-mount'>
               <AutoCompleter
                 searchData={this.props.people}
+                searchFor='name'
                 inputValue={this.state.mockInputValue}
                 handleItemSelect={this.selectItem}
-                showSurname={this.showSurname}
-                surnameValue={this.state.surname}
+                displayMoreInfo={this.showSurname}
+                moreInfoKey='surname'
+                moreInfo={this.state.moreInfo}
               />
             </div>
             : null

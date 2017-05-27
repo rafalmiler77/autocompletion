@@ -3,18 +3,20 @@ import './AutoCompleter.css';
 
 const AutoCompleter = props => {
   const items = props.searchData;
+  const searchPhrase = props.searchFor;
 
   // This regex filters items depending on input value, case-insesitive matching
   const pattern = new RegExp("\\b" + props.inputValue, "i");
+
   const regexedItems = items.filter(
-    item => pattern.test(item.name)
+    item => pattern.test(item[searchPhrase])
   );
   // fires when item is clicked; args: id of a person, type: number
   const handleClick = id => {
     props.handleItemSelect(id)
   }
   const handleMouseEnter = id => {
-    props.showSurname(id)
+    props.displayMoreInfo(id)
   }
 
   // It limits displayed number of items and maps them to html markup 
@@ -27,7 +29,7 @@ const AutoCompleter = props => {
       onClick={()=>handleClick(item.id)}
       onMouseEnter={() => handleMouseEnter(item.id)}
     >
-        {item.name} {props.surnameValue === item.surname ? item.surname : null}
+        {item[searchPhrase]} {props.moreInfo === item[props.moreInfoKey] ? item[props.moreInfoKey] : null}
     </div>
   );
 // if search doesn't bring any results, nothing is displayed
@@ -40,7 +42,6 @@ const AutoCompleter = props => {
   } else {
     return null
   }
-  
 }
 
 export default AutoCompleter;

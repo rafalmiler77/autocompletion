@@ -7,16 +7,16 @@ import {
   FETCH_PEOPLE_FAILURE,
 } from './actionTypes';
 
-const fetchUser = () => actualInput => 
-  dispatch => {
+const fetchUser = actualInput => {
+  return dispatch => {
     dispatch({ type: FETCH_USERS__BEGIN });
-
+    if (actualInput.length <= 1) {
+      return false
+    }
     fetch(
       `https://api.github.com/search/users?q=${actualInput}+in%3Alogin`,
     ).then(
       response => {
-        console.log(response)
-        console.log(actualInput)
         if (response.status === 404) {
           dispatch({
             type: USER_NOT_FOUND,
@@ -33,6 +33,8 @@ const fetchUser = () => actualInput =>
       }),
     );
   };
+  
+}
 
 export default fetchUser;
 
