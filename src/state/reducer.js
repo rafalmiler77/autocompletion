@@ -25,7 +25,7 @@ export default (state = initialState, action) => {
     case FETCH_USERS__SUCCESS:
       return {
         ...state,
-        users: state.users.concat(action.user),
+        users: action.users,
         pending: false,
       };
     case USER_NOT_FOUND:

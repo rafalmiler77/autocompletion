@@ -32,7 +32,7 @@ class InputForm extends Component {
     this.setState({
       inputValue: e.target.value
     })
-    // this.props.getUser(e.target.value)
+    this.props.getUser(e.target.value)
   }
 // fires on input change; args: event object
   onMockInputChange = e => {
@@ -61,9 +61,10 @@ class InputForm extends Component {
   }
 
   render() {
+    console.log('users in inputform',this.props.users)
     return (
       <div className="input-forms">
-        {/*<label>Input a github user login:</label>
+        <label>Input a github user login:</label>
         <br />
         <input
           type="text"
@@ -71,7 +72,7 @@ class InputForm extends Component {
           onChange={e => this.onInputChange(e)}
           className="gh-input"
           value={this.state.inputValue}
-        />*/}
+        />
         <label>Pick a name from a mock list:</label>
         <br />
         <input

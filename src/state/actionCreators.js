@@ -12,7 +12,7 @@ const fetchUser = actualInput =>
     dispatch({ type: FETCH_USERS__BEGIN });
 
     fetch(
-      `https://api.github.com/users/${actualInput}`,
+      `https://api.github.com/search/users?q=${actualInput}+in%3Alogin`,
     ).then(
       response => {
         if (response.status === 404) {
@@ -25,9 +25,9 @@ const fetchUser = actualInput =>
         return response.json();
       },
     ).then(
-      user => dispatch({
+      data => dispatch({
         type: FETCH_USERS__SUCCESS,
-        user,
+        users: data
       }),
     );
   };
