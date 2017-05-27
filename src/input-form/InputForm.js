@@ -21,6 +21,7 @@ class InputForm extends Component {
       mockInputValue: '',
       selectedPerson: null,
       moreInfo: '',
+      selectedLogin: null,
     })
   }
   // fetches people data from mock file
@@ -28,6 +29,7 @@ class InputForm extends Component {
     this.props.fetchData()
   }
   // fires on input change; args: event object
+  // fetches users based on typed input
   onInputChange = e => {
     this.setState({
       inputValue: e.target.value
@@ -42,12 +44,22 @@ class InputForm extends Component {
   }
   // fires when a name is picked in AutoCompleter; args: id of a person
   // the person is filtered from array and person object goes to state
-  selectItem = id => {
+  selectPerson = id => {
     this.setState({
       selectedPerson: this.props.people.filter(
         name => id === name.id
       )[0],
       mockInputValue: ''
+    })
+  }
+    // fires when a login is picked in AutoCompleter; args: id of a user
+  // the user is filtered from array and user object goes to state
+  selectLogin = id => {
+    this.setState({
+      selectedLogin: this.props.users.items.filter(
+        user => id === user.id
+      )[0],
+      inputValue: ''
     })
   }
   // fires when a name in AutoCompleter is hovered; args: id of a person
@@ -57,6 +69,27 @@ class InputForm extends Component {
       moreInfo: this.props.people.filter(
         name => id === name.id
       )[0].surname
+    })
+  }
+    // fires when an item in AutoCompleter is hovered; args: id of a person
+  // the person is filtered from array and users id string goes to state
+  showId = id => {
+    this.setState({
+      githubUserId: this.props.users.items.filter(
+        item => id === item.id
+      )[0].id
+    })
+  }
+  // it makes the other AutoCompleter dissapear by putting its value to zero
+  handleGithubOnFocus = () => {
+    this.setState({
+      mockInputValue: ''
+    })
+  }
+  // it makes the other AutoCompleter dissapear by putting its value to zero
+  handleMockOnFocus = () => {
+    this.setState({
+      inputValue: ''
     })
   }
 
@@ -71,9 +104,11 @@ class InputForm extends Component {
           type="text"
           name="ghLogin"
           onChange={e => this.onInputChange(e)}
+          onFocus={this.handleGithubOnFocus}
           className="gh-input"
           value={this.state.inputValue}
         />
+        {/*if an input value is not empty, AutoCompleter appears*/}
         {
           this.state.inputValue.length >= 1 && this.props.users ?
             <div className='completer-mount'>
@@ -81,10 +116,23 @@ class InputForm extends Component {
                 searchData={this.props.users.items}
                 searchFor='login'
                 inputValue={this.state.inputValue}
-                handleItemSelect={this.selectItem}
+                handleItemSelect={this.selectLogin}
+                searchForMore='id'
+                displayMoreInfo={this.showId}
+                moreInfo={this.state.githubUserId}
               />
             </div>
             : null
+        }
+        {/*display of a github login with its id*/}
+        {
+          this.state.selectedLogin !== null ?
+            <div className="selected-item">
+              You selected {this.state.selectedLogin.login}, <br />
+              whose id is {this.state.selectedLogin.id}
+            </div>
+            :
+            null
         }
         <label>Pick a name from a mock list:</label>
         <br />
@@ -92,6 +140,7 @@ class InputForm extends Component {
           type="text"
           name="mockName"
           onChange={e => this.onMockInputChange(e)}
+          onFocus={this.handleMockOnFocus}
           className="gh-input"
           value={this.state.mockInputValue}
         />
@@ -103,9 +152,9 @@ class InputForm extends Component {
                 searchData={this.props.people}
                 searchFor='name'
                 inputValue={this.state.mockInputValue}
-                handleItemSelect={this.selectItem}
+                handleItemSelect={this.selectPerson}
+                searchForMore='surname'
                 displayMoreInfo={this.showSurname}
-                moreInfoKey='surname'
                 moreInfo={this.state.moreInfo}
               />
             </div>
@@ -114,7 +163,7 @@ class InputForm extends Component {
         {/*display of some details of a person, like name and email*/}
         {
           this.state.selectedPerson !== null ?
-            <div className="selected-person">
+            <div className="selected-item">
               You selected {this.state.selectedPerson.name}, <br />
               whose e-mail is {this.state.selectedPerson.email}
             </div>

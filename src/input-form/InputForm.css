@@ -6,12 +6,14 @@
 }
 .gh-input{
   margin-top: 20px;
+  margin-bottom: 20px;
   width: 100%;
   box-sizing: border-box;
 }
 .completer-mount {
   position: relative;
 }
-.selected-person {
+.selected-item {
   margin-top: 20px;
+  margin-bottom: 20px;
 }

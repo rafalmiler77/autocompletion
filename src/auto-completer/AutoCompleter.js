@@ -29,7 +29,7 @@ const AutoCompleter = props => {
       onClick={()=>handleClick(item.id)}
       onMouseEnter={() => handleMouseEnter(item.id)}
     >
-        {item[searchPhrase]} {props.moreInfo === item[props.moreInfoKey] ? item[props.moreInfoKey] : null}
+       <div> {item[searchPhrase]}</div><div> {props.moreInfo === item[props.searchForMore] ? item[props.searchForMore] : null}</div>
     </div>
   );
 // if search doesn't bring any results, nothing is displayed

@@ -7,4 +7,13 @@ Settings and features:
 - the displayed number of propositions is limited to 8
 - there can be multiple names, that's why when hovered over, a surname is added to display
 
+AutoCompleter has following props:
+- searchData - an array of objects. The object must contain the following keys: id
+- searchFor - a key, type string, which will be a search string
+- inputValue - the typed characters (usually from components state)
+- handleItemSelect - a function taking id as an argument
+- searchForMore - another key, type string, which will be a additionally displayed
+- displayMoreInfo - a function taking id as an argument
+- moreInfo - a string value to be displayed (usually from components state)
+
 Demo: https://rafalmiler77.github.io/autocompletion/
