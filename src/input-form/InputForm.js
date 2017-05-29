@@ -92,6 +92,15 @@ class InputForm extends Component {
       inputValue: ''
     })
   }
+  // if ESC pressed, input values reset and AutoCompleter dissapeaers
+  handleKeyDown = e => {
+    if (e.keyCode === 27) {
+      this.setState({
+        inputValue: '',
+        mockInputValue: ''
+      })
+    }
+  }
 
   render() {
     // console.log('this.props.users',this.props.users)
@@ -105,6 +114,7 @@ class InputForm extends Component {
           name="ghLogin"
           onChange={e => this.onInputChange(e)}
           onFocus={this.handleGithubOnFocus}
+          onKeyDown={this.handleKeyDown}
           className="gh-input"
           value={this.state.inputValue}
         />
@@ -141,6 +151,7 @@ class InputForm extends Component {
           name="mockName"
           onChange={e => this.onMockInputChange(e)}
           onFocus={this.handleMockOnFocus}
+          onKeyDown={this.handleKeyDown}
           className="gh-input"
           value={this.state.mockInputValue}
         />
